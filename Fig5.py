@@ -12,7 +12,7 @@ import os
 import pandas as pd
 import datetime
 
-run_panels = []
+run_panels = ["A","B"]
 plot_panels = ["A","B"]
 
 

@@ -12,7 +12,7 @@ import pandas as pd
 import datetime
 import os
 
-run_panels = []
+run_panels = ["A","B","C"]
 plot_panels = ["A","B","C"]
 
 for arg in sys.argv[1:]:

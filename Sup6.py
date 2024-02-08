@@ -7,7 +7,7 @@ import pickle
 import operator
 import model_funcs as mf
 
-run_panels = []
+run_panels = ["A","B","C","D"]
 plot_panels = ["A","B","C","D"]
 
 for arg in sys.argv[1:]:

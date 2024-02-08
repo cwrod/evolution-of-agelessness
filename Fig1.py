@@ -7,8 +7,7 @@ import operator
 import model_funcs as mf
 import FigStyleSchemes as fss
 
-#run_panels = ["A","B","C","D","E"]
-run_panels = ["A"]
+run_panels = ["A","B","C","D","E"]
 plot_panels = ["A","B","C","D","E"]
 
 
