@@ -40,7 +40,7 @@ if "A" in plot_panels:
 	with open("output/figures/data/Sup7A.p", "rb") as f:
 		r_vals, g_vals = pickle.load(f)
 	
-	plt.figure(figsize=(5, 4), dpi=300)
+	plt.figure(figsize=(4, 3), dpi=300)
 	plt.plot(r_vals, g_vals, linewidth=2)
 	
 	max_val = max(g_vals)
@@ -94,11 +94,11 @@ if "B" in plot_panels:
 	
 	g_vals = np.transpose(g_vals)
 	
-	plt.figure(figsize=(5, 4), dpi=300)
+	plt.figure(figsize=(4, 3), dpi=300)
 	plt.imshow(g_vals, cmap='coolwarm', extent=(min(r1_vals)/max(r1_vals), 1, min(r2_vals) / max(r2_vals), 1), origin='lower',
 	           aspect='auto')
 	plt.colorbar(label=r"$R_0$")
-	plt.title(r"$r_{max,1}=0.3$        $r_{max,2}=0.3$")
+	plt.title(r"$r_{max,1}=0.3$    $r_{max,2}=0.3$")
 	plt.xlabel(r"$r_1$ / $r_{max,1}$")
 	plt.ylabel(r"$r_2$ / $r_{max,2}$")
 	plt.locator_params(nbins=5)
@@ -138,11 +138,11 @@ if "C" in plot_panels:
 		
 	g_vals = np.transpose(g_vals)
 	
-	plt.figure(figsize=(5, 4), dpi=300)
+	plt.figure(figsize=(4, 3), dpi=300)
 	plt.imshow(g_vals, cmap='coolwarm', extent=(min(r1_vals)/max(r1_vals), 1, min(r2_vals) / max(r2_vals), 1), origin='lower',
 	           aspect='auto')
 	plt.colorbar(label=r"$R_0$")
-	plt.title(r"$r_{max,1}=0.05$        $r_{max,2}=0.55$")
+	plt.title(r"$r_{max,1}=0.05$      $r_{max,2}=0.55$")
 	plt.xlabel(r"$r_1$ / $r_{max,1}$")
 	plt.ylabel(r"$r_2$ / $r_{max,2}$")
 	plt.locator_params(nbins=5)
@@ -174,7 +174,7 @@ if "D" in plot_panels:
 	with open("output/figures/data/Sup7D.p", "rb") as f:
 		r_vals, g_vals = pickle.load(f)
 	
-	plt.figure(figsize=(5, 4), dpi=300)
+	plt.figure(figsize=(4, 3), dpi=300)
 	plt.plot(r_vals, g_vals, linewidth=2)
 	
 	max_val = max(g_vals)
@@ -227,12 +227,12 @@ if "E" in plot_panels:
 	
 	g_vals = np.transpose(g_vals)
 	
-	plt.figure(figsize=(5, 4), dpi=300)
+	plt.figure(figsize=(4, 3), dpi=300)
 	plt.imshow(g_vals, cmap='coolwarm', extent=(min(r1_vals) / max(r1_vals), 1, min(r2_vals) / max(r2_vals), 1),
 	           origin='lower',
 	           aspect='auto')
 	plt.colorbar(label=r"$R_0$")
-	plt.title(r"$r_{max,1}=0.35$        $r_{max,2}=0.35$")
+	plt.title(r"$r_{max,1}=0.35$    $r_{max,2}=0.35$")
 	plt.xlabel(r"$r_1$ / $r_{max,1}$")
 	plt.ylabel(r"$r_2$ / $r_{max,2}$")
 	plt.locator_params(nbins=6)
@@ -272,12 +272,12 @@ if "F" in plot_panels:
 	
 	g_vals = np.transpose(g_vals)
 	
-	plt.figure(figsize=(5, 4), dpi=300)
+	plt.figure(figsize=(4, 3), dpi=300)
 	plt.imshow(g_vals, cmap='coolwarm', extent=(min(r1_vals) / max(r1_vals), 1, min(r2_vals) / max(r2_vals), 1),
 	           origin='lower',
 	           aspect='auto')
 	plt.colorbar(label=r"$R_0$")
-	plt.title(r"$r_{max,1}=0.05$        $r_{max,2}=0.65$")
+	plt.title(r"$r_{max,1}=0.05$    $r_{max,2}=0.65$")
 	plt.xlabel(r"$r_1$ / $r_{max,1}$")
 	plt.ylabel(r"$r_2$ / $r_{max,2}$")
 	plt.locator_params(nbins=6)
