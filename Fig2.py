@@ -53,7 +53,7 @@ if "A" in plot_panels:
 		
 	ax.set_xlabel("r")
 	ax.set_ylim(-0.05, 2)
-	ax.set_ylabel(r"$\beta * b(r)$")
+	ax.set_ylabel(r"$\beta × b(r)$")
 	
 	plt.legend()
 	plt.savefig("output/figures/plots/Fig2A.svg", transparent=True)
@@ -158,7 +158,7 @@ if "D" in plot_panels:
 	plt.figure(figsize=(4, 3), dpi=300)
 	plt.plot(beta_vals, AMRs, linewidth=2)
 	plt.xlabel(r"$\beta$")
-	plt.ylabel(r"$\beta * b\left(r_{opt}\right)$")
+	plt.ylabel(r"$\beta × b\left(r_{opt}\right)$")
 	plt.xscale("log")
 	plt.savefig("output/figures/plots/Fig2D.svg", transparent=True)
 	plt.show()

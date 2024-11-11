@@ -7,7 +7,8 @@ import pickle
 import operator
 import model_funcs as mf
 
-run_panels = ["A","B","C","D"]
+#run_panels = ["A","B","C","D"]
+run_panels = []
 plot_panels = ["A","B","C","D"]
 
 for arg in sys.argv[1:]:
@@ -99,7 +100,7 @@ if "B" in plot_panels:
 	plt.figure(figsize=(4, 3), dpi=300)
 	plt.plot(AMR2_vals, AMRs, linewidth=2)
 	plt.xlabel(r"$AMR_2$")
-	plt.ylabel(r"$\beta * b\left(r_{opt}\right)$")
+	plt.ylabel(r"$\beta × b\left(r_{opt}\right)$")
 	plt.savefig("output/figures/plots/Sup6B.svg", transparent=True)
 	plt.show()
 
@@ -186,6 +187,6 @@ if "D" in plot_panels:
 	plt.figure(figsize=(4, 3), dpi=300)
 	plt.plot(d_vals, AMRs, linewidth=2)
 	plt.xlabel(r"$d$")
-	plt.ylabel(r"$\beta * b\left(r_{opt}\right)$")
+	plt.ylabel(r"$\beta × b\left(r_{opt}\right)$")
 	plt.savefig("output/figures/plots/Sup6D.svg", transparent=True)
 	plt.show()

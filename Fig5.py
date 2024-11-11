@@ -134,7 +134,7 @@ if "A" in plot_panels:
 	sm = plt.cm.ScalarMappable(cmap='hot', norm=plt.Normalize(vmin=vmin, vmax=vmax))
 	sm._A = []
 	cbar = plt.colorbar(sm)
-	cbar.set_label(r"$\beta * b(r_{opt})$",size=16)
+	cbar.set_label(r"$\beta × b(r_{opt})$",size=16)
 	plt.ylabel(r"$\beta_1$",size=16)
 	plt.xlabel(r"$\beta_2$",size=16)
 	cbar.ax.tick_params(labelsize=12)
@@ -247,7 +247,7 @@ if "B" in plot_panels:
 	sm = plt.cm.ScalarMappable(cmap='hot', norm=plt.Normalize(vmin=vmin, vmax=vmax))
 	sm._A = []
 	cbar = plt.colorbar(sm)
-	cbar.set_label(r"$\beta * b(r_{opt})$",size=16)
+	cbar.set_label(r"$\beta × b(r_{opt})$",size=16)
 	plt.ylabel(r"$r_{max,1}$",size=16)
 	plt.xlabel(r"$r_{max,2}$",size=16)
 	cbar.ax.tick_params(labelsize=12)

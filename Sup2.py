@@ -50,7 +50,7 @@ if "A" in plot_panels:
 	line1 = ax.plot(C_sizes, opt_scales, linewidth=2)
 	ax.set_xlabel("C")
 	ax.set_xscale("log")
-	ax.set_ylabel(r"$\frac{C * b\left(r_{opt}\right)^k}{(k-1)!}$")
+	ax.set_ylabel(r"$\frac{C × b\left(r_{opt}\right)^k}{(k-1)!}$")
 	plt.savefig("output/figures/plots/Sup2A.svg", transparent=True)
 	plt.show()
 	

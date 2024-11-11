@@ -46,7 +46,7 @@ if "A" in plot_panels:
 	plt.figure(figsize=(4, 3), dpi=300)
 	plt.plot(rmax_vals, AMRs, linewidth=2)
 	plt.xlabel(r"$r_{max}$")
-	plt.ylabel(r"$\beta * b\left(r_{opt}\right)$")
+	plt.ylabel(r"$\beta × b\left(r_{opt}\right)$")
 	plt.savefig("output/figures/plots/Sup3A.svg", transparent=True)
 	plt.show()
 
@@ -83,7 +83,7 @@ if "B" in plot_panels:
 	plt.figure(figsize=(4, 3), dpi=300)
 	plt.plot(rmax_vals, AMRs, linewidth=2)
 	plt.xlabel(r"$r_{max}$")
-	plt.ylabel(r"$\beta * b\left(r_{opt}\right)$")
+	plt.ylabel(r"$\beta × b\left(r_{opt}\right)$")
 	plt.savefig("output/figures/plots/Sup3B.svg", transparent=True)
 	plt.show()
 
@@ -121,6 +121,6 @@ if "C" in plot_panels:
 	plt.figure(figsize=(4, 3), dpi=300)
 	plt.plot(rmax_vals, AMRs, linewidth=2)
 	plt.xlabel(r"$r_{max}$")
-	plt.ylabel(r"$\beta * b\left(r_{opt}\right)$")
+	plt.ylabel(r"$\beta × b\left(r_{opt}\right)$")
 	plt.savefig("output/figures/plots/Sup3C.svg", transparent=True)
 	plt.show()

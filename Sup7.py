@@ -7,8 +7,10 @@ import operator
 import model_funcs as mf
 import FigStyleSchemes as fss
 
-run_panels = ["A","B","C","D","E","F"]
-plot_panels = ["A","B","C","D","E","F"]
+#run_panels = ["A","B","C","D","E","F"]
+run_panels = []
+#plot_panels = ["A","B","C","D","E","F"]
+plot_panels = ["E"]
 
 
 for arg in sys.argv[1:]:
@@ -235,7 +237,8 @@ if "E" in plot_panels:
 	plt.title(r"$r_{max,1}=0.35$    $r_{max,2}=0.35$")
 	plt.xlabel(r"$r_1$ / $r_{max,1}$")
 	plt.ylabel(r"$r_2$ / $r_{max,2}$")
-	plt.locator_params(nbins=6)
+	
+	#plt.locator_params(nbins=6)
 	plt.savefig("output/figures/plots/Sup7E.svg", transparent=True)
 	plt.show()
 

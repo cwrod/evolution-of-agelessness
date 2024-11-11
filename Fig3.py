@@ -53,7 +53,7 @@ if "A" in plot_panels:
 		
 	ax.set_xlabel("r")
 	ax.set_ylim(-0.02, 0.5)
-	ax.set_ylabel(r"$\beta * b(r)$")
+	ax.set_ylabel(r"$\beta × b(r)$")
 	
 	plt.legend()
 	plt.savefig("output/figures/plots/Fig3A.svg", transparent=True)
@@ -156,6 +156,6 @@ if "D" in plot_panels:
 	plt.figure(figsize=(4, 3), dpi=300)
 	plt.plot(rmax_vals, AMRs, linewidth=2)
 	plt.xlabel(r"$r_{max}$")
-	plt.ylabel(r"$\beta * b\left(r_{opt}\right)$")
+	plt.ylabel(r"$\beta × b\left(r_{opt}\right)$")
 	plt.savefig("output/figures/plots/Fig3D.svg", transparent=True)
 	plt.show()

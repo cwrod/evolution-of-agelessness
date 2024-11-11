@@ -7,8 +7,10 @@ import operator
 import model_funcs as mf
 import FigStyleSchemes as fss
 
-run_panels = ["A","B","C","D","E","F","G","H"]
-plot_panels = ["A","B","C","D","E","F","G","H"]
+#run_panels = ["A","B","C","D","E","F","G","H"]
+#plot_panels = ["A","B","C","D","E","F","G","H"]
+run_panels=["U","V"]
+plot_panels=["U","V"]
 
 for arg in sys.argv[1:]:
 	run_panels = [x for x in arg.strip()]
@@ -98,13 +100,23 @@ def gen_panel_data(growth_FR_single, rep_var_single, dam_sing_ret_func,
 def gen_panel_plot(data_file, plot_file, fig_title):
 	with open(data_file, "rb") as f:
 		plot_data, plot_val_ranges = pickle.load(f)
-
+	
+	beta_vals = plot_val_ranges["beta_vals"]
+	dam_vals = plot_data["beta_sing_dams"]
+	print(beta_vals)
+	print(dam_vals)
+	print(len(beta_vals))
+	print(len(dam_vals))
+	plt.scatter(np.logspace(-3,5,num=50), dam_vals)
+	plt.xscale('log')
+	plt.xlim((None, None))
+	plt.show()
 	fig, axes = plt.subplots(1, 5, figsize=(15, 3), dpi=300)
 	beta_vals = plot_val_ranges["beta_vals"]
 	dam_vals = plot_data["beta_sing_dams"]
 	ax = axes[0]
 	ax.plot(beta_vals, dam_vals)
-	ax.set_ylabel(r"$\beta * b\left(r_{opt}\right)$")
+	ax.set_ylabel(r"$\beta × b\left(r_{opt}\right)$")
 	ax.set_xlabel(r"$\beta$")
 	ax.set_xscale("log")
 	
@@ -113,34 +125,152 @@ def gen_panel_plot(data_file, plot_file, fig_title):
 	ax = axes[1]
 	ax.plot(rmax_vals, dam_vals)
 	ax.set_xlabel(r"$r_{max}$")
-	ax.set_ylabel(r"$\beta * b\left(r_{opt}\right)$")
+	ax.set_ylabel(r"$\beta × b\left(r_{opt}\right)$")
 	
 	gamma_vals = plot_val_ranges["gamma_vals"]
 	dam_vals = plot_data["gamma_sing_dams"]
 	ax = axes[2]
 	ax.plot(gamma_vals, dam_vals)
 	ax.set_xlabel(r"$\gamma$")
-	ax.set_ylabel(r"$\beta * b\left(r_{opt}\right)$")
+	ax.set_ylabel(r"$\beta × b\left(r_{opt}\right)$")
 	
 	drain_vals = plot_val_ranges["drain_vals"]
 	dam_vals = plot_data["drain_dams"]
 	ax = axes[3]
 	ax.plot(drain_vals, dam_vals)
 	ax.set_xlabel(r"$d$")
-	ax.set_ylabel(r"$\beta * b\left(r_{opt}\right)$")
+	ax.set_ylabel(r"$\beta × b\left(r_{opt}\right)$")
 	
 	mort_vals = plot_val_ranges["mort_vals"]
 	dam_vals = plot_data["mort_dams"]
 	ax = axes[4]
 	ax.plot(mort_vals, dam_vals)
 	ax.set_xlabel(r"$AMR_2$")
-	ax.set_ylabel(r"$\beta * b\left(r_{opt}\right)$")
+	ax.set_ylabel(r"$\beta × b\left(r_{opt}\right)$")
 	
 	
 	fig.suptitle(fig_title)
 	plt.savefig(plot_file, transparent=True)
 	plt.show()
 
+if "T" in run_panels:
+	rep_var_single = mf.Repair(0.32)
+	bfunc_single = mf.AsymTOff(rep_var_single, 0.5, 0.2)
+	hfunc_single = mf.ReproductiveScalingDrain(rep_var_single, 0.0)
+	gomp_single = mf.GompertzRepAMR(0.0006, bfunc_single)
+	gomp_single_cons = mf.GompertzCons(0.0006, 0.0)
+	extr_single = mf.Extrinsic(0.03)
+	prv = mf.PeakReproductiveValue(hfunc_single, 1)
+	mat_age = mf.MatAge(8, prv)
+	rep_func = mf.DecayingRepro([gomp_single], mat_age, prv)
+	surv_func = mf.SurvFunc([gomp_single, gomp_single_cons, extr_single])
+	growth_K_single = mf.KSelPop(rep_func, surv_func)
+	
+	gen_panel_data(growth_K_single, rep_var_single, gomp_single.get_AMR,
+	               lambda x: setattr(bfunc_single, "beta", x), lambda x: setattr(bfunc_single, "rmax", x),
+	               lambda x: setattr(extr_single, "gamma", x), lambda x: setattr(hfunc_single, "d", x),
+	               lambda x: setattr(gomp_single_cons, "B", x),
+	               list(np.logspace(-1, 10, num=50)), list(np.linspace(0.001, 0.9, num=50)),
+	               list(np.linspace(0, 0.05, num=50)), list(np.linspace(0, 0.4, num=50)),
+	               list(np.linspace(0, 0.03, num=50)),
+	               0.2, 0.5, 0.03, "output/figures/data/Sup9T.p")
+	
+if "T" in plot_panels:
+	fig_title = "Gompertz - Asymptotic Toff"
+	gen_panel_plot("output/figures/data/Sup9T.p", "output/figures/plots/Sup9T.svg", fig_title)
+	
+if "U" in run_panels:
+	rep1 = mf.Repair(0.32)
+	bfunc = mf.InverseTOff(rep1, 0.5, 0.2)
+	hfunc = mf.ReproductiveScaling(rep1)
+	gomp = mf.GompertzRepAMR_Asym(0.0006, bfunc)
+	extr = mf.Extrinsic(0.03)
+	prv = mf.PeakReproductiveValue(hfunc, 1)
+	mat_age = mf.MatAge(8, prv)
+	rep_func = mf.DecayingRepro([gomp], mat_age, prv)
+	surv_func = mf.SurvFunc([gomp, extr])
+	growth = mf.KSelPop(rep_func, surv_func)
+	
+	beta_vals = [0.02, 0.2, 2]
+	r_vals_list = []
+	g_vals_list = []
+	for beta_val in beta_vals:
+		r_vals = list(np.linspace(0, bfunc.rmax, num=100))
+		g_vals = []
+		bfunc.beta = beta_val
+		for r_val in r_vals:
+			rep1.val = r_val
+			g_vals.append(growth.ret_val())
+		r_vals_list.append(r_vals)
+		g_vals_list.append(g_vals)
+	
+	with open("output/figures/data/Sup9U.p", "wb") as f:
+		pickle.dump([beta_vals, r_vals_list, g_vals_list], f)
+
+if "U" in plot_panels:
+	with open("output/figures/data/Sup9U.p", "rb") as f:
+		beta_vals, r_vals_list, g_vals_list = pickle.load(f)
+	
+	plt.figure(figsize=(4, 3), dpi=300)
+	for i in range(len(r_vals_list)):
+		plt.plot(r_vals_list[i], g_vals_list[i], linewidth=2, label=r"$\beta$ = " + str(beta_vals[i]))
+		
+		max_val = max(g_vals_list[i])
+		arg_max = r_vals_list[i][g_vals_list[i].index(max_val)]
+		plt.scatter(arg_max, max_val, color="black", zorder=2.5)
+		arg_max = round(arg_max, 2)
+		max_val = round(max_val, 3)
+		offset = [(-30, 7), (-67, 2), (5, -12)][i]
+		plt.annotate("(" + str(arg_max) + ", " + str(max_val) + ")",
+		             xy=(arg_max, max_val), xycoords="data",
+		             xytext=offset, textcoords="offset points", zorder=2.5)
+	plt.ylim(None, 24)
+	plt.xlim(None, 0.75)
+	plt.xlabel("r")
+	plt.ylabel(r"$R_0$")
+	plt.legend()
+	plt.savefig("output/figures/plots/Sup9U.svg", transparent=True)
+	plt.show()
+	
+if "V" in run_panels:
+	rep1 = mf.Repair(0.32)
+	bfunc = mf.InverseTOff(rep1, 0.5, 0.2)
+	hfunc = mf.ReproductiveScaling(rep1)
+	gomp = mf.GompertzRepAMR_Asym(0.0006, bfunc)
+	extr = mf.Extrinsic(0.03)
+	prv = mf.PeakReproductiveValue(hfunc, 1)
+	mat_age = mf.MatAge(8, prv)
+	rep_func = mf.DecayingRepro([gomp], mat_age, prv)
+	surv_func = mf.SurvFunc([gomp, extr])
+	growth = mf.KSelPop(rep_func, surv_func)
+	
+	beta_vals = list(np.logspace(-3, 3, num=100))
+	opt_rs = []
+	AMRs = []
+	for beta_val in beta_vals:
+		bfunc.beta = beta_val
+		max_growth, max_rep_point = mf.optimize_growth(growth, [rep1], [[0, 0.8]])
+		opt_rs.append(max_rep_point[0])
+		rep1.val = max_rep_point[0]
+		AMRs.append(gomp.get_AMR())
+	
+	with open("output/figures/data/Sup9V.p", "wb") as f:
+		pickle.dump([beta_vals, opt_rs, AMRs], f)
+
+if "V" in plot_panels:
+	with open("output/figures/data/Sup9V.p", "rb") as f:
+		beta_vals, opt_rs, AMRs = pickle.load(f)
+	
+	plt.figure(figsize=(4, 3), dpi=300)
+	plt.plot([beta_vals[0], beta_vals[-1]], [0.5, 0.5], linestyle="dashed", color="black", linewidth=0.9)
+	plt.plot(beta_vals, opt_rs, linewidth=2)
+	print(beta_vals)
+	plt.xlabel(r"$\beta$")
+	plt.ylabel(r"$r_{opt}$")
+	plt.xscale("log")
+	
+	plt.savefig("output/figures/plots/Sup9V.svg", transparent=True)
+	plt.show()
 
 if "A" in run_panels:
 	rep_var_single = mf.Repair(0.32)

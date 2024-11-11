@@ -88,6 +88,46 @@ class InverseTOff:
 		return self.beta * ((self.rmax / self.repair.ret_val()) - 1)
 
 
+class AsymTOff:
+	def __init__(self, repair, rmax, beta):
+		self.repair = repair
+		self.rmax = rmax
+		self.beta = beta
+	
+	def ret_val(self):
+		if self.repair.ret_val() >= self.rmax:
+			return 0
+		return self.beta * ((self.rmax - self.repair.ret_val()) ** 4)
+
+
+class GompertzRepAMR_Asym:
+	def __init__(self, A, toff):
+		self.A = A
+		self.toff = toff
+	
+	def get_IMR(self):
+		return self.A
+	
+	def get_AMR(self):
+		#return self.toff.ret_val()
+		return 0.2*(1 - math.exp(-self.toff.ret_val()))
+
+	def get_scaled_AMR(self):
+		return 0.2*(1 - math.exp(-self.toff.ret_val()))
+
+	def ret_val_at_time(self, x):
+		return self.get_IMR() * math.exp(self.get_scaled_AMR() * x)
+	
+	def integral_form(self, x, a, decay_start=0):
+		if self.get_scaled_AMR() == 0 or self.get_IMR() == 0:
+			return math.exp(-self.get_IMR() * (x - a))
+		else:
+			if self.get_scaled_AMR() * (x - decay_start) > 100:
+				return 0
+			else:
+				return math.exp(-self.get_IMR() * (math.exp(self.get_scaled_AMR() * (x - decay_start)) -
+				                                   math.exp(self.get_scaled_AMR() * (a - decay_start))) / self.get_AMR())
+
 
 class InverseTOffPlei:
 	"""
@@ -468,7 +508,40 @@ class StepTOff:
 		if self.repair.ret_val() >= self.rmax:
 			return 0
 		else:
-			return self.beta * (1 / ((math.floor(10 * self.repair.ret_val() / self.rmax) / 10) + 0.01)) - 1
+			return self.beta * ((1 / ((math.floor(10 * self.repair.ret_val() / self.rmax) / 10) + 0.01)) - 1)
+
+
+class SmoothStepTOff:
+	"""
+	A trade-off function for the rate of aging that produces step-wise decrements in output
+	as repair approaches rmax. Takes the same form as InverseTOff
+	"""
+	
+	def __init__(self, repair, rmax, beta):
+		"""
+		Init function
+
+		Parameters:
+		- repair (object): The Repair variable.
+		- rmax (float): Repair value that serves as the denominator in the step function.
+		- beta (float): Scaling factor for the rate of aging.
+		"""
+		self.repair = repair
+		self.rmax = rmax
+		self.beta = beta
+	
+	def ret_val(self):
+		"""
+		Calculate the rate of aging using the specified trade-off function.
+
+		Returns:
+		float: The rate of aging.
+		"""
+		if self.repair.ret_val() >= self.rmax:
+			return 0
+		else:
+			factor = self.rmax / (0.1 ** (1 / 3) + 0.5)
+			return self.beta * (-(((((self.repair.ret_val() / factor) - 0.5) ** 3)) / 0.1)+1)
 
 
 class ReproductiveScaling:
